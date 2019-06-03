@@ -9,14 +9,21 @@ class CoursesPage extends React.PureComponent {
     };
   }
 
-  componentDidMount() {
-    const list = getAllCourses();
-    console.log(list);
+  async componentDidMount() {
+    this.setState({
+      courses: await getAllCourses()
+    });
   }
 
   render() {
-    console.log(this.state.courses);
-    return <h2> Courses Page </h2>;
+    const { courses } = this.state;
+    return (
+      <div>
+        {courses.map((course, index) => (
+          <h1 key={index}>{course.title}</h1>
+        ))}
+      </div>
+    );
   }
 }
 
