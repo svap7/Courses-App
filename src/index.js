@@ -4,13 +4,15 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router } from "react-router-dom";
-
+import { StoreProvider } from "./store";
 ReactDOM.render(
-  <div>
-    <Router>
-      <App />
-    </Router>
-  </div>,
+  <StoreProvider>
+    <div>
+      <Router>
+        <App />
+      </Router>
+    </div>
+  </StoreProvider>,
   document.getElementById("root")
 );
 

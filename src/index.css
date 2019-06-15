@@ -18,5 +18,6 @@ nav {
 
 #root {
   padding: 0 20px 0 20px;
-  max-width: 850px;
+  height: 100vh;
+  width: 100vw;
 }

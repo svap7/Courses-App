@@ -7,6 +7,7 @@ import { Route, Switch } from "react-router-dom";
 import Header from "./components/common/Header";
 import UnknownPage from "./components/common/UnknownPage";
 import CoursesPage from "./components/courses/CoursesPage";
+import ManageCourse from "./components/courses/ManageCourse";
 
 function App() {
   return (
@@ -16,6 +17,12 @@ function App() {
         <Route path="/" exact component={HomePage} />
         <Route path="/about" component={AboutPage} />
         <Route path="/courses" component={CoursesPage} />
+        <Route
+          path="/course/:id"
+          render={props => (
+            <ManageCourse courseId={props.match.params.id} {...props} />
+          )}
+        />
         <Route component={UnknownPage} />
       </Switch>
     </div>

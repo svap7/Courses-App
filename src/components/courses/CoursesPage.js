@@ -1,21 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { getAllCourses } from "../../api/CoursesApi";
+import * as coursesAction from "./action/coursesAction";
+import { Store } from "../../store";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
+import { columndef } from "../../columnDef/courses-col-def";
 
 const CoursesPage = () => {
-  const [courses, setCourses] = useState([]);
-
+  const { state, dispatch } = useContext(Store);
   useEffect(() => {
-    async function getCourses() {
-      const result = await getAllCourses();
-      setCourses(result);
+    console.log(state);
+    if (state.courses.length === 0) {
+      async function getCourses() {
+        const result = await getAllCourses();
+        dispatch(coursesAction.getAllCourses(result));
+      }
+      getCourses();
     }
-    getCourses();
-  }, []);
+  }, [dispatch, state]);
+
+  const props = {
+    courses: state.courses,
+    state: { state, dispatch }
+  };
+
+  console.log(props.courses);
   return (
     <div>
-      {courses.map((course, index) => (
-        <h1 key={index}>{course.title}</h1>
-      ))}
+      {props.courses ? (
+        <ReactTable
+          columns={columndef}
+          data={props.courses}
+          showPagination={true}
+          defaultPageSize={5}
+          showPageSizeOptions={false}
+        />
+      ) : null}
     </div>
   );
 };
