@@ -9,7 +9,6 @@ import { columndef } from "../../columnDef/courses-col-def";
 const CoursesPage = () => {
   const { state, dispatch } = useContext(Store);
   useEffect(() => {
-    console.log(state);
     if (state.courses.length === 0) {
       async function getCourses() {
         const result = await getAllCourses();
@@ -23,8 +22,6 @@ const CoursesPage = () => {
     courses: state.courses,
     state: { state, dispatch }
   };
-
-  console.log(props.courses);
   return (
     <div>
       {props.courses ? (
@@ -34,6 +31,7 @@ const CoursesPage = () => {
           showPagination={true}
           defaultPageSize={5}
           showPageSizeOptions={false}
+          loading={false}
         />
       ) : null}
     </div>
