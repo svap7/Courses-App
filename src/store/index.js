@@ -3,7 +3,8 @@ import rootReducer from "../reducer/rootReducer";
 
 export const Store = React.createContext();
 const initialState = {
-  courses: []
+  courses: [],
+  authors: []
 };
 
 export function StoreProvider(props) {

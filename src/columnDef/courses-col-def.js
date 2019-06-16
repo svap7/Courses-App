@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Button } from "reactstrap";
 
 export const columndef = [
   {
@@ -27,5 +28,9 @@ export const columndef = [
 ];
 
 const renderEditButton = ({ row }) => {
-  return <Link to={{ pathname: `/course/${row.courseId}` }}>Edit Course</Link>;
+  return (
+    <Link to={{ pathname: `/course/${row.courseId}` }}>
+      <Button color="info">Edit Course</Button>
+    </Link>
+  );
 };

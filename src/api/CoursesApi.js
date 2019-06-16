@@ -13,3 +13,11 @@ export const getCourse = courseId => {
       throw err;
     });
 };
+
+export const getAllAuthors = () => {
+  return fetch("/authors/getAll")
+    .then(response => response.json())
+    .catch(err => {
+      throw err;
+    });
+};

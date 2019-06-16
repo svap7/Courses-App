@@ -8,6 +8,7 @@ import Header from "./components/common/Header";
 import UnknownPage from "./components/common/UnknownPage";
 import CoursesPage from "./components/courses/CoursesPage";
 import ManageCourse from "./components/courses/ManageCourse";
+import AddCourse from "./components/courses/AddCourse";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/about" component={AboutPage} />
         <Route path="/courses" component={CoursesPage} />
         <Route path="/course/:id" component={ManageCourse} />
+        <Route path="/add" exact component={AddCourse} />
         <Route component={UnknownPage} />
       </Switch>
     </div>
