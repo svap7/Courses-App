@@ -17,12 +17,7 @@ function App() {
         <Route path="/" exact component={HomePage} />
         <Route path="/about" component={AboutPage} />
         <Route path="/courses" component={CoursesPage} />
-        <Route
-          path="/course/:id"
-          render={props => (
-            <ManageCourse courseId={props.match.params.id} {...props} />
-          )}
-        />
+        <Route path="/course/:id" component={ManageCourse} />
         <Route component={UnknownPage} />
       </Switch>
     </div>
