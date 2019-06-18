@@ -1,38 +1,75 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { Store } from "../../store";
-import { Form, FormGroup, Label, Input } from "reactstrap";
-import { getAllAuthors } from "../../api/CoursesApi";
-import * as authorsAction from "./action/authorsAction";
+import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { saveCourse } from "../../api/CoursesApi";
 
 const ManageCourse = ({ match }) => {
   const { state, dispatch } = useContext(Store);
-  const course = state.courses.find(course => {
+  const _course = state.courses.find(course => {
     return course.courseId.toString() === match.params.id;
   });
 
-  useEffect(() => {
-    console.log(state);
-    if (state.authors.length === 0) {
-      async function getAuthors() {
-        const result = await getAllAuthors();
-        dispatch(authorsAction.getAllAuthors(result));
-      }
-      getAuthors();
-    }
-  }, [dispatch, state]);
+  const [course, setCourse] = useState(_course);
 
-  const [title, setTitle] = useState(course.title);
   const updateTitle = e => {
-    setTitle(e.target.value);
+    console.log("event title " + e.target.value);
+    const updatedCourse = Object.assign({}, course, { title: e.target.value });
+    setCourse(updatedCourse);
+  };
+
+  const updateAuthor = e => {
+    setCourse({
+      ...course,
+      author: { authorId: parseInt(e.target.value, 10) }
+    });
+  };
+
+  const updateCourse = e => {
+    e.preventDefault();
+    saveCourse(course);
+  };
+
+  const props = { authors: state.authors };
+
+  const renderAuthors = authors => {
+    return authors.map((author, index) => {
+      return (
+        <option key={index} value={author.authorId}>
+          {author.name}
+        </option>
+      );
+    });
   };
 
   return (
-    <Form>
-      <FormGroup>
-        <Label for="manageCourseTitle">Course Title</Label>
-        <Input type="text" value={title} onChange={updateTitle} />
-      </FormGroup>
-    </Form>
+    <>
+      <Form>
+        <FormGroup>
+          <Label for="title">Course Title</Label>
+          <Input
+            type="text"
+            value={course.title}
+            onChange={updateTitle}
+            id="title"
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="courseAuthor">Course Author</Label>
+          <Input
+            type="select"
+            placeholder="Course Author"
+            id="courseAuthor"
+            value={course.author.name}
+            onChange={updateAuthor}
+          >
+            {renderAuthors(props.authors)}
+          </Input>
+        </FormGroup>
+      </Form>
+      <Button type="submit" onClick={updateCourse} color="primary">
+        Update Course
+      </Button>
+    </>
   );
 };
 

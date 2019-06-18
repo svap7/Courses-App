@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import { Store } from "../../store";
+const AddCourse = () => {
+  const { state, dispatch } = useContext(Store);
 
-const AddCourse = props => {
+  const props = {
+    authors: state.authors
+  };
+  console.log(props);
+
   return (
     <>
       <Form>
@@ -12,7 +19,7 @@ const AddCourse = props => {
         <FormGroup>
           <Label for="courseAuthor">Course Author</Label>
           <Input type="select" placeholder="Course Author" id="courseAuthor">
-            <option>1</option>
+            <option>props.authors[0].name</option>
             <option>2</option>
             <option>3</option>
             <option>4</option>
