@@ -30,15 +30,9 @@ export const getAllAuthors = async () => {
   }
 };
 
-export const saveCourse = async course => {
-  try {
-    const response = await fetch("/courses/save", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(course)
-    });
-    return await response.json();
-  } catch (err) {
-    throw err;
-  }
-};
+export const saveCourse = course =>
+  fetch("/courses/save", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(course)
+  });

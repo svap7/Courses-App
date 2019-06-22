@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import { Store } from "../../store";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { saveCourse } from "../../api/CoursesApi";
+import { Link } from "react-router-dom";
+import { saveCourseSuccess } from "./action/coursesAction";
 
 const ManageCourse = ({ match }) => {
   const { state, dispatch } = useContext(Store);
@@ -9,27 +11,47 @@ const ManageCourse = ({ match }) => {
     return course.courseId.toString() === match.params.id;
   });
 
-  const [course, setCourse] = useState(_course);
+  const [title, setTitle] = useState(_course.title);
+  const [authorId, setAuthorId] = useState(_course.author.authorId);
+  const [authorName, setAuthorName] = useState(_course.author.name);
+  const [duration, setDuration] = useState(_course.duration);
+  const [course] = useState(_course);
+  const props = {
+    authors: state.authors,
+    courses: state.courses,
+    state: { state, dispatch }
+  };
 
   const updateTitle = e => {
-    console.log("event title " + e.target.value);
-    const updatedCourse = Object.assign({}, course, { title: e.target.value });
-    setCourse(updatedCourse);
+    setTitle(e.target.value);
   };
 
-  const updateAuthor = e => {
-    setCourse({
+  const updateAuthorId = e => {
+    setAuthorId(parseInt(e.target.value, 10));
+    setAuthorName(getAuthorsName(e.target.value));
+  };
+
+  const getAuthorsName = id => {
+    return props.authors.find(auth => {
+      return auth.authorId.toString() === id;
+    }).name;
+  };
+
+  const updateDuration = e => {
+    setDuration(e.target.value);
+  };
+
+  const updateCourse = () => {
+    const _course = {
       ...course,
-      author: { authorId: parseInt(e.target.value, 10) }
+      ...{ author: { authorId, name: authorName } },
+      duration,
+      title
+    };
+    saveCourse(_course).then(() => {
+      dispatch(saveCourseSuccess(_course));
     });
   };
-
-  const updateCourse = e => {
-    e.preventDefault();
-    saveCourse(course);
-  };
-
-  const props = { authors: state.authors };
 
   const renderAuthors = authors => {
     return authors.map((author, index) => {
@@ -46,12 +68,7 @@ const ManageCourse = ({ match }) => {
       <Form>
         <FormGroup>
           <Label for="title">Course Title</Label>
-          <Input
-            type="text"
-            value={course.title}
-            onChange={updateTitle}
-            id="title"
-          />
+          <Input type="text" value={title} onChange={updateTitle} id="title" />
         </FormGroup>
         <FormGroup>
           <Label for="courseAuthor">Course Author</Label>
@@ -59,16 +76,27 @@ const ManageCourse = ({ match }) => {
             type="select"
             placeholder="Course Author"
             id="courseAuthor"
-            value={course.author.name}
-            onChange={updateAuthor}
+            value={authorId}
+            onChange={updateAuthorId}
           >
             {renderAuthors(props.authors)}
           </Input>
         </FormGroup>
+        <FormGroup>
+          <Label for="duration">Course Duration</Label>
+          <Input
+            type="text"
+            value={duration}
+            onChange={updateDuration}
+            id="duration"
+          />
+        </FormGroup>
       </Form>
-      <Button type="submit" onClick={updateCourse} color="primary">
-        Update Course
-      </Button>
+      <Link to="/courses">
+        <Button type="submit" color="primary" onClick={updateCourse}>
+          Update Course
+        </Button>
+      </Link>
     </>
   );
 };

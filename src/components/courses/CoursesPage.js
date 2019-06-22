@@ -19,6 +19,9 @@ const CoursesPage = () => {
       }
       getCourses();
     }
+  }, [dispatch, state.courses]);
+
+  useEffect(() => {
     if (state.authors.length === 0) {
       async function getAuthors() {
         const result = await getAllAuthors();
@@ -26,7 +29,7 @@ const CoursesPage = () => {
       }
       getAuthors();
     }
-  }, [dispatch, state]);
+  }, [dispatch, state.authors]);
 
   const props = {
     courses: state.courses,
@@ -39,7 +42,7 @@ const CoursesPage = () => {
           columns={columndef}
           data={props.courses}
           showPagination={true}
-          defaultPageSize={5}
+          defaultPageSize={10}
           showPageSizeOptions={false}
           loading={false}
         />
