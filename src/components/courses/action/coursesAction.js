@@ -18,3 +18,21 @@ export const addCourseSuccess = course => {
     course
   };
 };
+
+export const deleteCourse = courseId => dispatch => {
+  console.log("Delete course");
+  fetch(`/courses/delete/${courseId}`, {
+    method: "delete"
+  })
+    .then(() => {
+      dispatch(deleteSuccessCourseAction(courseId));
+    })
+    .catch(err => console.log(err));
+};
+
+const deleteSuccessCourseAction = courseId => {
+  return {
+    type: "DELETE_COURSE_SUCCESS",
+    courseId
+  };
+};

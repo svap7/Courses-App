@@ -13,7 +13,8 @@ const AddCourse = () => {
   const [duration, setDuration] = useState("");
 
   const props = {
-    authors: state.authors
+    authors: state.authors,
+    courses: state.courses
   };
 
   const renderAuthors = authors => {
@@ -49,7 +50,8 @@ const AddCourse = () => {
     const _course = {
       ...{ author: { authorId: authId, name: authName } },
       duration,
-      title
+      title,
+      courseId: props.courses.length + 1
     };
     saveCourse(_course).then(() => {
       dispatch(addCourseSuccess(_course));

@@ -13,6 +13,12 @@ export default function coursesReducer(state = [], action) {
     case "ADD_COURSE_SUCCESS": {
       return [...state, action.course];
     }
+    case "DELETE_COURSE_SUCCESS": {
+      const _courseIndex = state.findIndex(course => {
+        return course.courseId === action.courseId;
+      });
+      return [...state, state.slice(_courseIndex, 1)];
+    }
     default: {
       return state;
     }

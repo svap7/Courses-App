@@ -4,7 +4,7 @@ import * as coursesAction from "./action/coursesAction";
 import { Store } from "../../store";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import { columndef } from "../../columnDef/courses-col-def";
+import { columndef } from "../../columnDef/coursesColDef";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import * as authorsAction from "./action/authorsAction";
@@ -35,6 +35,7 @@ const CoursesPage = () => {
     courses: state.courses,
     state: { state, dispatch }
   };
+
   return (
     <div>
       <>
